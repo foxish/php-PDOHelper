@@ -2,14 +2,13 @@
 class MySqlDatabaseHelper {
 	//instance of database-helper
 	private $dbh;
-	private $table;
 	private $utilties;
-	function __construct($dbname, $host, $user_name, $password, $dbproto) {
+
+	function __construct($dbname, $host, $username, $password, $dbproto) {
 		$utilties = new Utilities();
-		if($utilties->getValid($dbname, $host, $user_name, $password, $dbproto)){
+		if($utilties->getValid($dbname, $host, $username, $password, $dbproto)){
 			try{
-				$dsn = "$dbproto:dbname=$dbname;host=$host";
-				$dbh = new PDO( $dsn, $user_name, $password);
+				$dbh = new PDO($dbproto.":dbname=".$dbname.";host=".$host, $username, $password);
 			}catch(Exception $ex){
 				die($ex->getMessage()."<br/>");
 			}
@@ -54,7 +53,6 @@ class MySqlDatabaseHelper {
 	function raw_query(){
 		//!careful
 	}
-	
 }
 
 class Utilities{
