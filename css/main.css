@@ -1,11 +1,25 @@
-/*
- * HTML5 Boilerplate
- *
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
+/* user-styles */
+.centereddiv {
+    position: absolute;
+	margin: 0px auto;
+	text-align: center;
+	display: inline;
+	vertical-align:middle;
+	width: 100%;
+	padding: 0px;
+}
 
+.hugetext{
+	font-size: 4.5em;
+}
+
+
+
+
+
+
+
+/*Can remove most styles below, unused. TODO*/
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
@@ -15,12 +29,16 @@ button,
 input,
 select,
 textarea {
-    color: #222;
+    color: #ddd;
 }
 
 body {
     font-size: 1em;
+	height:100%;
+	width: 100%;
     line-height: 1.4;
+	background-color: #000000;
+	font-family: 'Rambla', sans-serif;
 }
 
 /*
@@ -59,6 +77,7 @@ hr {
 img {
     vertical-align: middle;
 }
+
 
 /*
  * Remove default fieldset styles.

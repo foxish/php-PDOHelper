@@ -50,22 +50,31 @@ class Status{
 	function getStatus(){
 		$query = 'SELECT * FROM `status` ORDER BY `id` DESC LIMIT 1';
 		$this->dbh->query($query, Array());
-		$row = $this->dbh->getNextRow();
-		$row['timestamp'] = strtotime($row['timestamp']);
-		$timeElapsed = $this->getTimeElapsed($row['timestamp']);
+		$result = $this->dbh->getNextRow();
+		$result['timestamp'] = strtotime($result['timestamp']);
+		$timeElapsed = $this->getTimeElapsed($result['timestamp']);
 		
+		//add timeElapsed field
 		if($timeElapsed === -1){
-			$row['message'] = "error";
-			$row['timeElapsed'] = 0;
+			$result['message'] = "Error";
+			$result['timeElapsed'] = 0;
 		}
 		elseif($timeElapsed === -2){
-			$row['message'] = "unknown";
-			$row['timeElapsed'] = 0;
+			$result['message'] = "Unknown";
+			$result['timeElapsed'] = 0;
 		}else{
-			$row['timeElapsed'] = $timeElapsed;
+			$result['timeElapsed'] = $timeElapsed;
 		}
 		
-		return $row;
+		//use productive array
+		if($result['productive'] == 1){
+			$result['available'] = "No*";
+		}else{
+			$result['available'] = "Yes";
+		}
+		
+		//$result['efficiency'] += "%";
+		return $result;
 	}
 	
 	//updates status at database
