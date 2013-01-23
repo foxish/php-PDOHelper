@@ -31,13 +31,29 @@ class MySqlDatabaseHelper {
 		$this->sth = $this->dbh->prepare($query);
 		$this->sth->execute($bindArray);
 	}
+	
+	//returns one row indexed by $id
 	function getRow($id){
-		//todo
+		$resultArray = $this->getRows();
+		return $resultArray[$id];
 	}
+	
+	//returns all rows
+	function getRows(){
+		$resultArray = $this->sth->fetchAll();
+		return $resultArray;
+	}
+	
+	//gets next row, for iteration
 	function getNextRow(){
 		if($this->sth != null){
 			return $this->sth->fetch(PDO::FETCH_ASSOC);
 		}
+	}
+	
+	function getErrorList(){
+		if(!$this->sth)
+			return $this->sth->errorInfo();
 	}
 }
 /*class OtherSubClass extends MySqlDatabaseHelper {
