@@ -1,34 +1,36 @@
 <?php
-include_once('utilities.php');
-class MySqlDatabaseHelper {
-	//instance of database-helper
-	private $dbh;
-	private $sth = null;
-	private $utilties;
+/*
+Does raw queries using PDO. Will add more as the need arises
+This serves as the base-class.
+*/
 
+require_once('utilities.php');
+class SqlDatabaseHelper {
+	//instance of database-helper
+	private $pdo;
+	private $sth = null;
+
+	//constructor
 	function __construct($dbname, $host, $username, $password, $dbproto) {
-		$this->utilties = new Utilities();
-		if($this->utilties->getValid($dbname, $host, $username, $password, $dbproto)){
+		if(Utilities::getValid($dbname, $host, $username, $password, $dbproto)){
 			try{
-				$this->dbh = new PDO($dbproto.":dbname=".$dbname.";host=".$host, $username, $password);
+				$this->pdo = new PDO($dbproto.":dbname=".$dbname.";host=".$host, $username, $password);
 			}catch(Exception $ex){
 				die($ex->getMessage()."<br/>");
 			}
 		}else{
 			die("Cannot initialize " .__CLASS__ ."<br/>");
 		}
-		echo __CLASS__ . " constructor<br />";
 	}
+	
 	function __destruct() {
-		echo __CLASS__ ." destructor<br />";
-		unset($this->utilities);
-		unset($dbh);
+		
 	}
 	
 	//override in implementation
 	function query($query, $bindArray){
 		$query = trim($query);
-		$this->sth = $this->dbh->prepare($query);
+		$this->sth = $this->pdo->prepare($query);
 		$this->sth->execute($bindArray);
 	}
 	
@@ -51,12 +53,10 @@ class MySqlDatabaseHelper {
 		}
 	}
 	
+	//get error list (!!verify)
 	function getErrorList(){
 		if(!$this->sth)
 			return $this->sth->errorInfo();
 	}
 }
-/*class OtherSubClass extends MySqlDatabaseHelper {
-    
-}*/
 ?>
