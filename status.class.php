@@ -49,19 +49,17 @@ class Status{
 		$timeElapsed = $this->getTimeElapsed($time);
 		
 		$message = $row['message'];
-		if($timeElapsed == -1){
+		if($timeElapsed === -1){
 			$message = "unknown";
-		}else if($timeElapsed == 0){
-			$message = "none";
+		}else if($timeElapsed === 0){
+			$message = "error";
 		}
-		
-		$result = Array($message, $time, $timeElapsed, $row['productive'], $row['efficiency']);
+		return Array($message, $time, $timeElapsed, $row['productive'], $row['efficiency']);
 	}
 	
 	//updates status at database
 	function putStatus($status, $isProductive, $efficiency){
 		//perform checks
-	
 	
 		$query = 'INSERT INTO status VALUES(?, ?, ?, ?, ?)';
 		$this->dbh->query($query, Array(null, null, $status, $isProductive, $efficiency));
@@ -73,8 +71,8 @@ class Status{
 		if($timeDiff < 0)
 			return 0; //error condition, should never happen
 
-		//cannot do a single task for more than MAX_HOURS hours
-		if($timeDiff > MAX_HOURS*3600)
+		//cannot do a single task for more than MAX_HOURS hours, impossibru!
+		if($timeDiff > self::MAX_HOURS * 3600)
 			//show unknown task
 			return -1;
 		else
