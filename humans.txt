@@ -1,0 +1,7 @@
+# Anirudh R
+# HTML base & boilerplate code: HTML5 Boilerplate(http://html5boilerplate.com/)
+
+# TECHNOLOGY
+
+    HTML5, CSS3, PHP
+    Normalize.css, jQuery, Modernizr

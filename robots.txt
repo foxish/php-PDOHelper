@@ -1,0 +1,3 @@
+# anirudhr.com/
+
+User-agent: *

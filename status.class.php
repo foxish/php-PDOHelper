@@ -25,6 +25,13 @@ class Status{
 	private function __construct() {
 		global $DBNAME, $HOST, $USERNAME, $PASSWORD, $PROTOCOL; //use the global values
 		$this->dbh = new SqlDatabaseHelper($DBNAME, $HOST, $USERNAME, $PASSWORD, $PROTOCOL);
+		$this->setTimeZones();
+	}
+	
+	function setTimeZones(){
+		//set PHP timezone
+		date_default_timezone_set('Asia/Calcutta');
+		$this->dbh->query("SET SESSION time_zone = '+5:30'", Array());
 	}
 	
 	function __destruct() {
@@ -44,23 +51,29 @@ class Status{
 		$query = 'SELECT * FROM `status` ORDER BY `id` DESC LIMIT 1';
 		$this->dbh->query($query, Array());
 		$row = $this->dbh->getNextRow();
+		$row['timestamp'] = strtotime($row['timestamp']);
+		$timeElapsed = $this->getTimeElapsed($row['timestamp']);
 		
-		$time = strtotime($row['timestamp']);
-		$timeElapsed = $this->getTimeElapsed($time);
-		
-		$message = $row['message'];
 		if($timeElapsed === -1){
-			$message = "unknown";
-		}else if($timeElapsed === 0){
-			$message = "error";
+			$row['message'] = "error";
+			$row['timeElapsed'] = 0;
 		}
-		return Array($message, $time, $timeElapsed, $row['productive'], $row['efficiency']);
+		elseif($timeElapsed === -2){
+			$row['message'] = "unknown";
+			$row['timeElapsed'] = 0;
+		}else{
+			$row['timeElapsed'] = $timeElapsed;
+		}
+		
+		return $row;
 	}
 	
 	//updates status at database
 	function putStatus($status, $isProductive, $efficiency){
 		//perform checks
-	
+		assert($isProductive == 0 or $isProductive == 1);
+		assert($efficiency < 100);
+		
 		$query = 'INSERT INTO status VALUES(?, ?, ?, ?, ?)';
 		$this->dbh->query($query, Array(null, null, $status, $isProductive, $efficiency));
 	}
@@ -69,14 +82,14 @@ class Status{
 		//check if newer-time already exists
 		$timeDiff = time() - $time;
 		if($timeDiff < 0)
-			return 0; //error condition, should never happen
+			return -1; //error condition, should never happen
 
 		//cannot do a single task for more than MAX_HOURS hours, impossibru!
 		if($timeDiff > self::MAX_HOURS * 3600)
 			//show unknown task
-			return -1;
+			return -2;
 		else
-			return round($timeDiff, 0);
+			return $timeDiff;
 	}
 
 
