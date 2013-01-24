@@ -77,7 +77,7 @@ class Status{
 		}
 		
 		//format timestamp
-		$result['timestamp'] = date('h:i A @ d-m-Y', strtotime($result['timestamp'])); 
+		$result['timestamp'] = date('h:i A on d-m-Y', strtotime($result['timestamp'])); 
 		
 		//format timeElapsed
 		$time = intval($result['timeElapsed']);
