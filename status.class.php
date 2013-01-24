@@ -12,6 +12,7 @@ class Status{
 	private $dbh;
 	private static $status; //instance of this class
 	const MAX_HOURS = 15;
+	private $timeZone = 'Asia/Calcutta';
 	
 	//get single instance, caching object
 	public static function getInstance() {
@@ -30,7 +31,7 @@ class Status{
 	
 	function setTimeZones(){
 		//set PHP timezone
-		date_default_timezone_set('Asia/Calcutta');
+		date_default_timezone_set($this->timeZone);
 		$this->dbh->query("SET SESSION time_zone = '+5:30'", Array());
 	}
 	
@@ -76,8 +77,7 @@ class Status{
 		}
 		
 		//format timestamp
-		$date = new DateTime($result['timestamp']);
-		$result['timestamp'] = $date->format('h:m A @ d-m-Y');
+		$result['timestamp'] = date('h:i A @ d-m-Y', strtotime($result['timestamp'])); 
 		
 		//format timeElapsed
 		$time = intval($result['timeElapsed']);
