@@ -27,10 +27,10 @@ $result = $status->getStatus();
         <![endif]-->
 
         <div class="centereddiv">
-			<p class="hugetext"><span>Available: <? echo $result['available']; ?></span></p>
-			<p class="hugetext">Current Activity: <? echo $result['message']; ?></p>
-			<p class="hugetext"><span>Time Elapsed: <? echo $result['timeElapsed']; ?></span></p>
-			<p class="hugetext">Last Seen at: <? echo $result['timestamp']; ?></p>
+			<p class="hugetext">Available: <span class="specialText"><? echo $result['available']; ?></span></p>
+			<p class="hugetext">Current Activity: <span class="specialText"><? echo $result['message']; ?></span></p>
+			<p class="hugetext">Time Elapsed (hh:mm): <span class="specialText"><? echo $result['timeElapsed']; ?></span></p>
+			<p class="hugetext">Last Seen at: <span class="specialText"><? echo $result['timestamp']; ?></span></p>
 		</div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>

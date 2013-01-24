@@ -51,8 +51,10 @@ class Status{
 		$query = 'SELECT * FROM `status` ORDER BY `id` DESC LIMIT 1';
 		$this->dbh->query($query, Array());
 		$result = $this->dbh->getNextRow();
-		$result['timestamp'] = strtotime($result['timestamp']);
-		$timeElapsed = $this->getTimeElapsed($result['timestamp']);
+		
+		
+		//get timestamp
+		$timeElapsed = $this->getTimeElapsed(strtotime($result['timestamp']));
 		
 		//add timeElapsed field
 		if($timeElapsed === -1){
@@ -72,6 +74,14 @@ class Status{
 		}else{
 			$result['available'] = "Yes";
 		}
+		
+		//format timestamp
+		$date = new DateTime($result['timestamp']);
+		$result['timestamp'] = $date->format('h:m A @ d-m-Y');
+		
+		//format timeElapsed
+		$time = intval($result['timeElapsed']);
+		$result['timeElapsed'] = $this->secsToTime($time);
 		
 		return $result;
 	}
@@ -99,6 +109,11 @@ class Status{
 			return -2;
 		else
 			return $timeDiff;
+	}
+	//converts seconds to hh:mm:ss (http://stackoverflow.com/a/3534705/)
+	function secsToTime($seconds) {
+		$t = round($seconds);
+		return sprintf('%02d:%02d', ($t/3600),($t/60%60));
 	}
 }
 ?>

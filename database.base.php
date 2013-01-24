@@ -24,7 +24,7 @@ class SqlDatabaseHelper {
 	}
 	
 	function __destruct() {
-		
+		//stub
 	}
 	
 	//override in implementation
