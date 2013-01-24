@@ -73,20 +73,20 @@ class Status{
 			$result['available'] = "Yes";
 		}
 		
-		//$result['efficiency'] += "%";
 		return $result;
 	}
 	
 	//updates status at database
-	function putStatus($status, $isProductive, $efficiency){
+	function putStatus($message, $isProductive, $efficiency){
 		//perform checks
 		assert($isProductive == 0 or $isProductive == 1);
 		assert($efficiency < 100);
-		
-		$query = 'INSERT INTO status VALUES(?, ?, ?, ?, ?)';
-		$this->dbh->query($query, Array(null, null, $status, $isProductive, $efficiency));
+		if(Utilities::getValid($message, $isProductive, $efficiency)){
+			$query = 'INSERT INTO status VALUES(?, ?, ?, ?, ?)';
+			$this->dbh->query($query, Array(null, null, $message, $isProductive, $efficiency));
+		}	
 	}
-	
+		
 	function getTimeElapsed($time){		
 		//check if newer-time already exists
 		$timeDiff = time() - $time;
@@ -100,7 +100,5 @@ class Status{
 		else
 			return $timeDiff;
 	}
-
-
 }
 ?>
