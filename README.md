@@ -8,18 +8,19 @@ For people switching from the deprecated set of mysql_* functions to the PDO set
     utilities.php contains some common functions which might be of use elsewhere as well (very generic)
     database.test.php tests the above functionality
 
-Step 1: Create the helper object
+**Step 1: Create the helper object**
+
     $dbObj = new SqlDatabaseHelper('database_name', 'hostname','username', 'password', 'database_protocol');
 
 All fields are self-explanatory. database_protocol is "mysql" for mysql databases. The supported drivers can be checked using [PDO::getAvailableDrivers](http://www.php.net/manual/en/pdo.getavailabledrivers.php).
 
-Step 2: Use the `query()` method
+**Step 2: Use the `query()` method**
 
     $dbObj->query('SELECT * FROM status', Array('')); //no parameters, so empty array
     $dbObj->query('INSERT INTO status VALUES(?, ?, ?, ?...)', Array('value1', 'value2', 'value3', 'value4' ...));
     $dbObj->query('DELETE FROM status WHERE id = ?', Array('2'));
 
-Step 3: Retrieve and iterate through results
+**Step 3: Retrieve and iterate through results**
 
 In case of the SELECT statement, 
 
