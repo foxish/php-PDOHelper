@@ -1,5 +1,6 @@
 php-PDOHelper
 =============
+###Branch: master
 
 Base classes for all PDO-operations
 
@@ -22,7 +23,7 @@ All fields are self-explanatory. database_protocol is "mysql" for mysql database
 
 **Step 3: Retrieve and iterate through results**
 
-In case of the SELECT statement, 
+In case of the `SELECT` statement, 
 
     $rows = $dbObj->getRows();
     var_dump($rows);
@@ -30,12 +31,5 @@ In case of the SELECT statement,
 This fetches an associative array of rows returned
 There is also `getRow($id)` which returns one row at index $id
 
-
-
-
-
-
-
-
-Branch: status
+###Branch: status
 A website using the above which implements calls to PDO-base class and insertion of a certain piece of data
